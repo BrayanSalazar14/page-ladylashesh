@@ -16,7 +16,7 @@ export default function HomeSection() {
 
   return (
     <section id='home' className="min-h-screen">
-      <div className='flex items-center min-h-screen justify-center lg:mt-20 md:mt-20 max-sm:mt-32'>
+      <div className='flex items-center min-h-screen justify-center lg:mt-20 md:mt-20 max-sm:mt-40'>
         <div className='flex flex-col lg:flex-row justify-around items-center h-full p-2 lg:p-0 lg:w-[1000px] lg:h-[600px] bg-white bg-opacity-40 rounded-2xl shadow-2xl'>
           <CarouselImages />
           <div className='flex flex-col justify-center p-4 w-96'>
