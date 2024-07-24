@@ -35,8 +35,9 @@ const ServicesSection = () => {
           <h1 className='flex justify-center text-pink-400 font-extrabold text-2xl p-10'>SERVICIOS</h1>
           <div className='flex flex-col items-center gap-5'>
             {services.map((service, index) => (
-              <div key={index} className='flex bg-white bg-opacity-40 backdrop-blur-xl w-[400px] h-[500px] justify-center items-center rounded-md'>
-                <div className='relative w-96 h-[440px] mb-10'>
+              <div key={index} className='flex bg-white bg-opacity-40 backdrop-blur-xl w-[400px] h-[500px] justify-center items-center rounded-md overflow-hidden'>
+                <div className='relative w-96 h-[440px] mb-10 transition-transform duration-200 ease-in-out transform hover:scale-110 cursor-pointer'
+                onClick={() => router.push(service.route)}>
                   <Image
                     src={service.src}
                     alt={service.alt}
@@ -46,7 +47,7 @@ const ServicesSection = () => {
                     className="h-full w-full rounded-md"
                   />
                 </div>
-                <div className='absolute flex bottom-5'>
+                <div className='absolute flex bottom-2'>
                   <p className='text-pink-500'>{service.title}</p>
                 </div>
               </div>
