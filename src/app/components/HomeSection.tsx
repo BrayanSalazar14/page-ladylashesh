@@ -1,12 +1,26 @@
 "use client";
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import CarouselImages from './CarouselImages';
+import { useRouter } from 'next/navigation';
+import { useMediaQuery } from 'react-responsive';
 
-export default function HomeSection() {
+const ServicesSection = () => {
+  const router = useRouter();
+  const smallDevice = useMediaQuery({ query: '(max-width: 768px)'});
+  const [isClient, setIsClient] = useState(false);
+
+  const services = [
+    { src: "/Services1.jpg", alt: "Services1", route: "/services/extensions-eyelashes", title: "EXTENSIONES DE PESTAÑAS" },
+    { src: "/services2.jpg", alt: "Services2", route: "/services/eyebrow-micropigmentation", title: "MICROPIGMENTACIÓN DE CEJAS" },
+    { src: "/services3.jpg", alt: "Services3", route: "/services/lip-micropigmentation", title: "LABIOS" },
+    { src: "/services4.jpg", alt: "Services4", route: "/services/facial-and-body-treatments", title: "TRATAMIENTOS FACIALES Y CORPORALES" },
+    { src: "/services5.jpg", alt: "Services5", route: "/services/serum-therapy", title: "SUERO TERAPIA"}
+  ];
+
   useEffect(() => {
+    setIsClient(true);
     const hash = window.location.hash;
-    if (hash === '#home') {
+    if (hash === '#servicios') {
       const element = document.querySelector(hash);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
@@ -15,29 +29,60 @@ export default function HomeSection() {
   }, []);
 
   return (
-    <section id='home' className="min-h-screen">
-      <div className='flex items-center min-h-screen justify-center lg:mt-20 md:mt-20 max-sm:mt-40'>
-        <div className='flex flex-col lg:flex-row justify-around items-center h-full p-2 lg:p-0 lg:w-[1000px] lg:h-[600px] bg-white bg-opacity-40 rounded-2xl shadow-2xl'>
-          <CarouselImages />
-          <div className='flex flex-col justify-center p-4 w-96'>
-            <h1 className='flex justify-center text-5xl p-5 text-pink-500'>Acerca de mi</h1>
-            <p>
-              ¡Hola! Mi nombre es Leidy y soy una esteticista apasionada por realzar la belleza natural de mis clientes. Con años de experiencia en el cuidado estético, me especializo en tratamientos de pestañas, masajes rejuvenecedores y terapias con plasma. Mi objetivo es ofrecer un servicio personalizado y de alta calidad, asegurando que cada visita sea una experiencia única y revitalizante.
-            </p>
-            <div className='flex justify-end gap-2 mt-10'>
-              <button onClick={() => window.open("https://www.instagram.com/pestanasdivinasladyfer", "_blank")}>
-                <Image src="/instagram.png" alt='logoInstagram' width={50} height={50} />
-              </button>
-              <button onClick={() => window.open("https://api.whatsapp.com/send?phone=3155785695", "_blank")}>
-                <Image src="/whatsappLogo.png" alt='logoWhatsapp' width={50} height={50} />
-              </button>
-              <button onClick={() => window.open("https://www.facebook.com/profile.php?id=100064073948313&sk=about", "_blank")}>
-                <Image src="/facebookLogo.png" alt='logoFacebook' width={50} height={50} />
-              </button>
-            </div>
+    <section id="servicios">
+      {isClient && smallDevice ? (
+        <div className='min-h-screen'>
+          <h1 className='flex justify-center text-pink-400 font-extrabold text-2xl p-10'>SERVICIOS</h1>
+          <div className='flex flex-col items-center gap-5'>
+            {services.map((service, index) => (
+              <div key={index} className='flex bg-white bg-opacity-40 backdrop-blur-xl w-[400px] h-[500px] justify-center items-center rounded-md overflow-hidden'>
+                <div className='relative w-96 h-[440px] mb-10 transition-transform duration-200 ease-in-out transform hover:scale-110 cursor-pointer'
+                onClick={() => router.push(service.route)}>
+                  <Image
+                    src={service.src}
+                    alt={service.alt}
+                    fill
+                    style={{ objectFit: 'cover', objectPosition: 'center' }}
+                    quality={100}
+                    className="h-full w-full rounded-md"
+                  />
+                </div>
+                <div className='absolute flex bottom-2'>
+                  <p className='text-pink-500'>{service.title}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="min-h-screen shadow-2xl">
+          <div className="grid grid-cols-5 bg-black min-h-screen">
+            {services.map((service, index) => (
+              <div key={index} className="relative h-full overflow-hidden group">
+                <div className='absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 hidden group-hover:block p-4'>
+                  <p className='flex justify-center 2xl:w-96 text-extrabold text-pink-500 text-xl'>{service.title}</p>
+                </div>
+                <div
+                  className="h-full w-full transition-transform duration-200 ease-in-out transform hover:scale-110 cursor-pointer hover:opacity-40"
+                  onClick={() => router.push(service.route)}
+                >
+                  <Image
+                    src={service.src}
+                    alt={service.alt}
+                    fill
+                    style={{ objectFit: 'cover', objectPosition: 'center' }}
+                    quality={100}
+                    className="h-full w-full"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        )}
     </section>
-  )
-}
+  );
+};
+
+export default ServicesSection;
+ 
